@@ -70,21 +70,25 @@ export default {
     this.selectedIndex = index;
     this.deleteModal.show();
   },
-  async confirmDelete() {
-    if (this.selectedIndex !== null) {
-      const id = this.permissions[this.selectedIndex].id;
-      try {
-        await PermissionsService.deletePermission(id);
-        this.permissions.splice(this.selectedIndex, 1);
-        this.selectedIndex = null;
-        this.deleteModal.hide(); // Ocultar el modal
-      } catch (error) {
-        console.error("Error al eliminar el permiso:", error);
-      }
+async confirmDelete() {
+  if (this.selectedIndex !== null) {
+    const id = this.permissions[this.selectedIndex].id;
+    try {
+      await PermissionsService.deletePermission(id); // Asegúrate de que esto coincide con el método en PermissionsService
+      this.permissions.splice(this.selectedIndex, 1);
+      this.selectedIndex = null;
+      this.deleteModal.hide(); // Ocultar el modal
+    } catch (error) {
+      console.error("Error al eliminar el permiso:", error);
     }
   }
+}
   },
   async mounted() {
+    
+  this.deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'), {
+      keyboard: false
+    });
   try {
     const response = await PermissionsService.getPagedPermissions({ page: 1, pageSize: 10 });
     if (response.data && response.data.data && response.data.data.items) {
@@ -106,9 +110,6 @@ export default {
   }
 
 
-  this.deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'), {
-      keyboard: false
-    });
 },
 };
 </script>

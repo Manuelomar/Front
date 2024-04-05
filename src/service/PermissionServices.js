@@ -21,9 +21,10 @@ class PermissionsService extends BaseService {
     return this.update(id, permissionData);
   }
 
-  deletePermissionType(id) {
+  deletePermission(id) {
     return this.delete(id);
   }
+  
 }
 
 export default new PermissionsService();
